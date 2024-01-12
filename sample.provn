@@ -1,0 +1,9 @@
+document
+  prefix utk <http://www.provbook.org/utk/>
+  
+  entity(utk:grammar)
+  agent(utk:autoAgent, [prov:type="prov:SoftwareAgent", prov:type="ao:IBCCAlgo"])
+  activity(utk:save, 2024-01-06T12:30:05.238087, -, [prov:type="edit"])
+  wasGeneratedBy(utk:grammar, utk:save, -)
+  wasAssociatedWith(utk:save, utk:autoAgent, -, [prov:role="author"])
+endDocument
