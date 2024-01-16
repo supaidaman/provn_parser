@@ -1,30 +1,5 @@
 import json
 
-def parseEntity(parameters):
-    print("parameters")
-    parameters = parameters.replace(')','') #remove parenteses sobrando
-
-    parsed_parameters = parameters.partition(",")
-    parsed_parameters = list(filter(None, parsed_parameters))
-    
-    if(len(parsed_parameters) == 1):
-        return json.dumps(
-            {
-                "id": parsed_parameters[0], 
-                "type": "entity",
-            }
-        )
-    else:
-        return json.dumps(
-            {
-                "id": parsed_parameters[0], 
-                "type": "entity",
-                "optionalParameters": parsed_parameters[1]
-            }
-        )
-
-
-
 def parseActivity(parameters):
     parameters = parameters.replace(')','') #remove parenteses sobrando
 
@@ -62,3 +37,25 @@ def parseActivity(parameters):
 # Here ex:a10 is the activity identifier,
 # 2011-11-16T16:00:00 and 2011-11-16T16:00:01 are the optional start and end times for the activity, 
 #and [prov:type="createFile"] is a list of optional attributes.
+
+#parser para eventos que só tem id e lista de parametros opcionais
+def parseSimpleEvent(parameters, event_type):
+    parameters = parameters.replace(')','') #remove parenteses sobrando
+
+    parsed_parameters = parameters.partition(",")
+    parsed_parameters = list(filter(None, parsed_parameters))
+
+    if(len(parsed_parameters) == 1):
+        return json.dumps(
+            {
+                "id": parsed_parameters[0], 
+                "type":event_type,
+            }
+        )
+    return json.dumps(
+            {
+                "id": parsed_parameters[0], 
+                "type": event_type,
+                "optionalParameters": parsed_parameters[2],
+            }
+        )

@@ -1,4 +1,4 @@
-from entity_parser import parseActivity, parseEntity
+from entity_parser import parseActivity, parseSimpleEvent
 f = open("sample.provn", "r")
 lines = f.readlines()
 
@@ -16,12 +16,14 @@ def parseLine(line):
     match keyword:
         case "entity":
             print("found an entity.")
-            nodes.append(parseEntity(parsed_line[2])) # remove o inicio do paranteses mas o fim continua
+            nodes.append(parseSimpleEvent(parsed_line[2],"entity")) # remove o inicio do paranteses mas o fim continua
 
         case "activity":
             print("found an activity.")
             nodes.append(parseActivity(parsed_line[2])) # remove o inicio do paranteses mas o fim continua
 
+        case "agent":
+            nodes.append(parseSimpleEvent(parsed_line[2],"agent"))
     print(nodes)
 
 
