@@ -37,7 +37,7 @@ def parseLine(line):
 
         case "wasAssociatedWith":
             entity_parser.parseWasAssociatedWith(parsed_line[2], nodes, edges)
-    print(nodes)
+    # print(nodes)
 
 
 for line in lines:
@@ -47,19 +47,21 @@ for line in lines:
 
 
 with open(r"nodes.json", "w") as fp:
-    fp.write["["]
+    fp.write("[")
     for item in nodes:
         # write each item on a new line
         fp.write("%s" % item)
         fp.write(",\n")
-    fp.write["]"]
+    fp.write("]")
     print("Done")
+    fp.close()
 
-with open(r"nodes.json", "w") as fp:
-    fp.write["["]
+with open(r"edges.json", "w") as f2:
+    f2.write("[")
     for item in edges:
         # write each item on a new line
-        fp.write("%s" % item)
-        fp.write(",\n")
-    fp.write["]"]
+        f2.write("%s" % item)
+        f2.write(",\n")
+    f2.write("]")
     print("Done")
+    f2.close()

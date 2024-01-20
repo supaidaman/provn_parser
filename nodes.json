@@ -1,5 +1,42 @@
-{"data": {"id": "utk:grammar", "type": "entity"}}
-{"data": {"id": "utk:autoAgent", "type": "agent", "optionalParameters": " [prov:type=\"prov:SoftwareAgent\", prov:type=\"ao:IBCCAlgo\"]"}}
-{"data": {"id": "utk:save", "type": "activity", "start_time": "2024-01-06T12:30:05.238087", "end_time": "-", "optionalParameters": "[prov:type=\"prov:SoftwareAgent\" , prov:type=\"edit\"]"}}
-{"data": "{\"activity\": \"utk:save\", \"entity\": \"utk:grammar\", \"id\": \"utk:grammar\", \"type\": \"wasGeneratedBy\"}"}
-{"data": "{\"activity\": \"utk:save\", \"agent\": \"utk:autoAgent\", \"id\": \"utk:autoAgent\", \"optionalParameters\": \"[prov:role=\\\"author\\\"]\", \"plan\": \"-\", \"type\": \"wasAssociatedWith\"}"}
+[
+  {
+    "data": {
+      "id": "utk:grammar",
+      "type": "entity"
+    }
+  },
+  {
+    "data": {
+      "id": "utk:autoAgent",
+      "type": "agent",
+      "optionalParameters": " [prov:type=\"prov:SoftwareAgent\", prov:type=\"ao:IBCCAlgo\"]"
+    }
+  },
+  {
+    "data": {
+      "id": "utk:save",
+      "type": "activity",
+      "start_time": "2024-01-06T12:30:05.238087",
+      "end_time": "-",
+      "optionalParameters": "[prov:type=\"prov:SoftwareAgent\" , prov:type=\"edit\"]"
+    }
+  },
+  {
+    "data": {
+      "type": "wasGeneratedBy",
+      "entity": "utk:grammar",
+      "id": "utk:grammar",
+      "activity": "utk:save"
+    }
+  },
+  {
+    "data": {
+      "type": "wasAssociatedWith",
+      "activity": "utk:save",
+      "agent": "utk:autoAgent",
+      "id": "utk:autoAgent",
+      "plan": "-",
+      "optionalParameters": "[prov:role=\"author\"]"
+    }
+  }
+]

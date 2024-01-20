@@ -121,7 +121,6 @@ def parseWasGeneratedBy(parameters, nodes, edges):
 
         if idx >= 1 and hasBracketOpening(p):
             optionalParameters = " , ".join(parameters_list[idx:])
-            print(optionalParameters)
             wasGeneratedBy.optionalParameters = optionalParameters
             break
             # sempre é o último parametro
@@ -129,12 +128,18 @@ def parseWasGeneratedBy(parameters, nodes, edges):
     # if not hasattr(wasGeneratedBy, "activity"):  # todo get prefix to attributes
     #     wasGeneratedBy.id = uuid.uuid4()
     # activity indica relação!
-    nodes.append(json.dumps({"data": wasGeneratedBy.toJSON()}))
+
+    jsondata = {}
+    jsondata["data"] = wasGeneratedBy.__dict__
+    nodes.append(json.dumps(jsondata))
+
     edges.append(
         json.dumps(
             {
-                "target": wasGeneratedBy.activity,
-                "source": wasGeneratedBy.id,
+                "data": {
+                    "target": wasGeneratedBy.activity,
+                    "source": wasGeneratedBy.id,
+                }
             }
         )
     )
@@ -194,12 +199,17 @@ def parseWasAssociatedWith(parameters, nodes, edges):
         wasAssociatedWith.agent = uuid.uuid4()
 
     # activity indica relação!
-    nodes.append(json.dumps({"data": wasAssociatedWith.toJSON()}))
+    jsondata = {}
+    jsondata["data"] = wasAssociatedWith.__dict__
+    nodes.append(json.dumps(jsondata))
+
     edges.append(
         json.dumps(
             {
-                "target": wasAssociatedWith.id,
-                "source": wasAssociatedWith.activity,
+                "data": {
+                    "target": wasAssociatedWith.id,
+                    "source": wasAssociatedWith.activity,
+                }
             }
         )
     )
