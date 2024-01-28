@@ -29,6 +29,9 @@ def parseLine(line):
                 entity_parser.parseActivity(parsed_line[2])
             )  # remove o inicio do paranteses mas o fim continua
 
+        case "used":
+            nodes.append(entity_parser.parseUsed(parsed_line[2], nodes, edges))
+
         case "agent":
             nodes.append(entity_parser.parseSimpleEvent(parsed_line[2], "agent"))
 
@@ -37,6 +40,9 @@ def parseLine(line):
 
         case "wasAssociatedWith":
             entity_parser.parseWasAssociatedWith(parsed_line[2], nodes, edges)
+
+        case "wasInformedBy":
+            entity_parser.parseWasInformedBy(parsed_line[2], nodes, edges)
     # print(nodes)
 
 

@@ -209,6 +209,7 @@ def parseWasAssociatedWith(parameters, nodes, edges):
                 "data": {
                     "target": wasAssociatedWith.id,
                     "source": wasAssociatedWith.activity,
+                    "type": "wasAssociatedWith"
                 }
             }
         )
@@ -222,3 +223,123 @@ def parseWasAssociatedWith(parameters, nodes, edges):
 # wasAssociatedWith(ex:a1, ex:ag1, ex:e1)
 # wasAssociatedWith(ex:a1, ex:ag1, ex:e1, [ex:param1="a", ex:param2="b"])
 # wasAssociatedWith(ex:assoc; ex:a1, -, ex:e1)
+
+
+def parseUsed(parameters, nodes, edges):
+    parameters = parameters.replace(")", "")  # remove parenteses sobrando
+
+    parsed_parameters = parameters.split(",")
+    parameters_list = list(filter(None, parsed_parameters))
+    parameters_list = [s.strip() for s in parameters_list]
+
+    used = Object()
+    used.type = "used"
+
+    for idx, p in enumerate(parameters_list):
+        if idx == 0:
+            if hasQuotes(p) and hasSubString(p, ";"):
+                used.identifier = p
+                used.id = p
+            else:
+                used.activity = p
+            continue
+
+        if idx == 1 and not hasattr(used, "activity"):
+            used.activity = p
+            continue
+
+        if idx >= 1 and not hasattr(used, "entity"):
+            used.entity = p
+
+            continue
+
+        if idx >= 1 and dateparser.parse(p):
+            used.start_time = p
+            continue
+
+        if idx > 0 and hasBracketOpening(p):
+            optionalParameters = " , ".join(parameters_list[idx:])
+            print(optionalParameters)
+            used.optionalParameters = optionalParameters
+            break
+            # sempre é o último parametro
+
+    if not hasattr(used, "id"):  # todo get prefix to attributes
+        used.id = uuid.uuid4()
+
+    # activity indica relação!
+    # relação somente de edge
+    edges.append(
+        json.dumps(
+            {
+                "data": {
+                    "target": used.entity,
+                    "source": used.activity,
+                    "type": "used"
+                }
+            }
+        )
+    )
+    return
+
+
+# used(ex:act2)
+# used(ex:act2, ar3:0111, 2011-11-16T16:00:00)
+# used(a1,e1, -, [ex:fct="load"])
+# used(ex:u1; ex:act2, ar3:0111, -)
+def parseUsed(parameters, nodes, edges):
+    parameters = parameters.replace(")", "")  # remove parenteses sobrando
+
+    parsed_parameters = parameters.split(",")
+    parameters_list = list(filter(None, parsed_parameters))
+    parameters_list = [s.strip() for s in parameters_list]
+
+    wasInformedBy = Object()
+    wasInformedBy.type = "used"
+
+    for idx, p in enumerate(parameters_list):
+        if idx == 0:
+            if hasQuotes(p) and hasSubString(p, ";"):
+                wasInformedBy.identifier = p
+                wasInformedBy.id = p
+            else:
+                wasInformedBy.informed_activity = p
+            continue
+
+        if idx == 1 and not hasattr(wasInformedBy, "informed_activity"):
+            wasInformedBy.informed_activity = p
+            continue
+
+        if idx >= 1 and not hasattr(wasInformedBy, "informant_activity"):
+            wasInformedBy.informant_activity = p
+
+            continue
+
+        if idx > 0 and hasBracketOpening(p):
+            optionalParameters = " , ".join(parameters_list[idx:])
+            print(optionalParameters)
+            wasInformedBy.optionalParameters = optionalParameters
+            break
+            # sempre é o último parametro
+
+    if not hasattr(wasInformedBy, "id"):  # todo get prefix to attributes
+        wasInformedBy.id = uuid.uuid4()
+
+    # relação somente de edge
+    edges.append(
+        json.dumps(
+            {
+                "data": {
+                    "target": wasInformedBy.informed_activity,
+                    "source": wasInformedBy.informant_activity,
+                    "type": "wasInformedBy"
+                }
+            }
+        )
+    )
+    return
+
+# wasInformedBy(ex:a1, ex:a2)
+# wasInformedBy(ex:a1, ex:a2, [ex:param1="a", ex:param2="b"])
+# wasInformedBy(ex:i; ex:a1, ex:a2)
+# wasInformedBy(ex:i; ex:a1, ex:a2, [ex:param1="a", ex:param2="b"])
